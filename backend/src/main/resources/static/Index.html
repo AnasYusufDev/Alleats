@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Alleats</title>
+</head>
+<body>
+
+<h1>Velkommen til Alleats 🍔</h1>
+
+<button onclick="getData()">Hent data</button>
+
+<p id="result"></p>
+
+<script>
+    function getData() {
+        fetch('/api/test')
+            .then(res => res.text())
+            .then(data => {
+                document.getElementById('result').innerText = data;
+            });
+    }
+</script>
+
+</body>
+</html>
