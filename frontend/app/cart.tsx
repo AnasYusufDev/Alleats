@@ -6,6 +6,8 @@ import {
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
+  Alert,
+  ActivityIndicator,
 } from 'react-native';
 import { useLocalSearchParams, router } from 'expo-router';
 
@@ -17,10 +19,37 @@ type CartItem = {
 };
 
 export default function CartScreen() {
-  const { cartItems } = useLocalSearchParams();
+  const { cartItems, restaurantId } = useLocalSearchParams();
   const items: CartItem[] = cartItems ? JSON.parse(cartItems as string) : [];
+  const [loading, setLoading] = useState(false);
 
   const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+  const placeOrder = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch('https://unclasp-deceiving-skimming.ngrok-free.dev/api/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true'
+        },
+        body: JSON.stringify({
+          totalPrice: total,
+          restaurant: { id: restaurantId }
+        })
+      });
+
+      if (response.ok) {
+        Alert.alert('Bestilling modtaget! 🎉', 'Din ordre er på vej!', [
+          { text: 'OK', onPress: () => router.push('/(tabs)') }
+        ]);
+      }
+    } catch (err) {
+      Alert.alert('Fejl', 'Noget gik galt. Prøv igen.');
+    }
+    setLoading(false);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -47,8 +76,12 @@ export default function CartScreen() {
           />
           <View style={styles.totalContainer}>
             <Text style={styles.totalText}>Total: {total} kr</Text>
-            <TouchableOpacity style={styles.orderButton}>
-              <Text style={styles.orderButtonText}>Bestil nu</Text>
+            <TouchableOpacity style={styles.orderButton} onPress={placeOrder} disabled={loading}>
+              {loading ? (
+                <ActivityIndicator color="#fff" />
+              ) : (
+                <Text style={styles.orderButtonText}>Bestil nu</Text>
+              )}
             </TouchableOpacity>
           </View>
         </>

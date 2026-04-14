@@ -90,7 +90,7 @@ export default function MenuScreen() {
       {cartCount > 0 && (
         <TouchableOpacity
           style={styles.cartButton}
-          onPress={() => router.push({ pathname: '/cart', params: { cartItems: JSON.stringify(cart) } })}
+          onPress={() => router.push({ pathname: '/cart', params: { cartItems: JSON.stringify(cart), restaurantId: restaurantId } })}
         >
           <Text style={styles.cartButtonText}>Se kurv ({cartCount})</Text>
         </TouchableOpacity>
