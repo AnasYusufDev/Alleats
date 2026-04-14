@@ -6,7 +6,9 @@ import {
   StyleSheet,
   ActivityIndicator,
   SafeAreaView,
+  TouchableOpacity,
 } from 'react-native';
+import { router } from 'expo-router';
 
 type Restaurant = {
   id: number;
@@ -49,14 +51,17 @@ export default function RestaurantList() {
         data={restaurants}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <View style={styles.card}>
+          <TouchableOpacity
+            style={styles.card}
+            onPress={() => router.push({ pathname: '/menu', params: { restaurantId: item.id, restaurantName: item.name } })}
+          >
             <Text style={styles.name}>{item.name}</Text>
             <Text style={styles.category}>{item.category}</Text>
             <Text style={styles.address}>{item.address}</Text>
             <Text style={item.open ? styles.open : styles.closed}>
               {item.open ? 'Åben' : 'Lukket'}
             </Text>
-          </View>
+          </TouchableOpacity>
         )}
       />
     </SafeAreaView>

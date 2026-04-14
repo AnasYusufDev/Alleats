@@ -61,6 +61,8 @@ export default function RootLayout() {
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="next" options={{ headerShown: false }} />
+
+        <Stack.Screen name="menu" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
       </Stack>
       {showSplash && <SplashScreen onDone={() => setShowSplash(false)} />}
