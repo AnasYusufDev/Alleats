@@ -56,11 +56,12 @@ API_URL=http://localhost:8080
 ```
 
 ---
-
 ## Status
 
-MVP in progress. Core ordering flow is the current focus.
+MVP is almost complete. Core ordering flow is done, and I’m currently finishing the order confirmation.
 
----
+## Next steps
+
+After MVP authentication, payments, and general improvements to the app.
 
 Built by [Anas Yusuf](https://github.com/AnasYusufDev)
