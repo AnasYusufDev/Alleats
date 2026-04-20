@@ -41,9 +41,10 @@ export default function CartScreen() {
       });
 
       if (response.ok) {
-        Alert.alert('Bestilling modtaget! 🎉', 'Din ordre er på vej!', [
-          { text: 'OK', onPress: () => router.push('/(tabs)') }
-        ]);
+        router.replace({
+          pathname: '/orderconfirmation',
+          params: { total: total, restaurantName: restaurantId }
+        });
       }
     } catch (err) {
       Alert.alert('Fejl', 'Noget gik galt. Prøv igen.');
