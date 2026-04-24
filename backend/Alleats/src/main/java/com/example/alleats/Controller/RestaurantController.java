@@ -29,4 +29,9 @@ public class RestaurantController {
     public ResponseEntity<Restaurant> createRestaurant(@RequestBody Restaurant restaurant) {
         return ResponseEntity.ok(restaurantService.createRestaurant(restaurant));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Restaurant> updateRestaurant(@PathVariable Long id, @RequestBody Restaurant restaurant) {
+        return ResponseEntity.ok(restaurantService.updateRestaurant(id, restaurant));
+    }
 }
