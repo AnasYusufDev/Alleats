@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
   SafeAreaView,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import { router } from 'expo-router';
 
@@ -17,6 +18,7 @@ type Restaurant = {
   address: string;
   category: string;
   open: boolean;
+  imageUrl: string;
 };
 
 export default function RestaurantList() {
@@ -25,9 +27,7 @@ export default function RestaurantList() {
 
   useEffect(() => {
     fetch('https://unclasp-deceiving-skimming.ngrok-free.dev/api/restaurants', {
-      headers: {
-        'ngrok-skip-browser-warning': 'true'
-      }
+      headers: { 'ngrok-skip-browser-warning': 'true' }
     })
       .then(res => res.json())
       .then(data => {
@@ -55,12 +55,15 @@ export default function RestaurantList() {
             style={styles.card}
             onPress={() => router.push({ pathname: '/menu', params: { restaurantId: item.id, restaurantName: item.name } })}
           >
-            <Text style={styles.name}>{item.name}</Text>
-            <Text style={styles.category}>{item.category}</Text>
-            <Text style={styles.address}>{item.address}</Text>
-            <Text style={item.open ? styles.open : styles.closed}>
-              {item.open ? 'Åben' : 'Lukket'}
-            </Text>
+            <Image source={{ uri: item.imageUrl }} style={styles.image} />
+            <View style={styles.info}>
+              <Text style={styles.name}>{item.name}</Text>
+              <Text style={styles.category}>{item.category}</Text>
+              <Text style={styles.address}>{item.address}</Text>
+              <Text style={item.open ? styles.open : styles.closed}>
+                {item.open ? '🟢 Åben' : '🔴 Lukket'}
+              </Text>
+            </View>
           </TouchableOpacity>
         )}
       />
@@ -71,7 +74,9 @@ export default function RestaurantList() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#fff', padding: 16 },
   title: { fontSize: 28, fontWeight: 'bold', color: '#111827', marginBottom: 16 },
-  card: { backgroundColor: '#F9FAFB', borderRadius: 12, padding: 16, marginBottom: 12, borderWidth: 1, borderColor: '#E5E7EB' },
+  card: { backgroundColor: '#F9FAFB', borderRadius: 12, marginBottom: 12, borderWidth: 1, borderColor: '#E5E7EB', overflow: 'hidden' },
+  image: { width: '100%', height: 160 },
+  info: { padding: 16 },
   name: { fontSize: 18, fontWeight: '600', color: '#111827', marginBottom: 4 },
   category: { fontSize: 14, color: '#6B7280', marginBottom: 4 },
   address: { fontSize: 13, color: '#9CA3AF', marginBottom: 8 },
